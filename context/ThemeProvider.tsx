@@ -24,18 +24,24 @@ export function ThemeProvider({
   const [mode, setMode] = useState('');
 
   const handleThemeChange = () => {
-    if (mode === 'dark') {
-      setMode('light');
-      document.documentElement.classList.add('light');
-    } else {
+    // localStorage.theme in components/shared/navbar/Theme.tsx
+
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark').matches) // <-- check if the user prefers dark mode
+    ) {
       setMode('dark');
       document.documentElement.classList.add('dark');
+    } else {
+      setMode('light');
+      document.documentElement.classList.remove('dark');
     }
   };
 
-  //   useEffect(() => {
-  //     handleThemeChange();
-  //   }, [mode]);
+  useEffect(() => {
+    handleThemeChange();
+  }, [mode]);
 
   return (
     <ThemeContext.Provider value={{ mode, setMode }}>
