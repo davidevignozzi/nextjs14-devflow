@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useTheme } from '@/context/ThemeProvider';
 
-import { themes } from '@/constants';
+import { themes } from '@/constants/constants';
 
 import {
   Menubar,

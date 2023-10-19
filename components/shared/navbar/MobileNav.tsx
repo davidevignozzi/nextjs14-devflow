@@ -11,7 +11,7 @@ import {
 import Link from 'next/link';
 import { SignedOut } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
-import { sidebarLinks } from '@/constants';
+import { sidebarLinks } from '@/constants/constants';
 import { usePathname } from 'next/dist/client/components/navigation';
 
 const NavContent = () => {
