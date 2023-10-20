@@ -32,9 +32,7 @@ const LeftSidebar = () => {
                 alt={item.label}
                 width={20}
                 height={20}
-                className={`${
-                  isActive ? '' : 'invert-colors'
-                } h-auto w-auto`}
+                className={`${isActive ? '' : 'invert-colors'}`}
               />
               <p
                 className={`${
@@ -75,7 +73,7 @@ const LeftSidebar = () => {
                 alt="sign up"
                 width={20}
                 height={20}
-                className="invert-colors h-auto w-auto lg:hidden" // <- h-auto w-auto for aspect ratio
+                className="invert-colors lg:hidden"
               />
               <span className="max-lg:hidden">Sign Up</span>
             </Button>
