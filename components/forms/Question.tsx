@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -21,14 +21,18 @@ import { QuestionsSchema } from '@/lib/validations';
 import { useTheme } from '@/context/ThemeProvider';
 import Image from 'next/image';
 
+const type: any = 'create';
+
 const Question = () => {
   // Text Editor ref
   const editorRef = useRef(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // For editor dark and light mode
   const { mode } = useTheme();
 
-  // 1. Define form.
+  // Define form.
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
     defaultValues: {
@@ -38,11 +42,18 @@ const Question = () => {
     }
   });
 
-  // 2. Define a submit handler.
+  // Submit handler
   function onSubmit(values: z.infer<typeof QuestionsSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    setIsSubmitting(true);
+
+    try {
+      // make an async call to your API -> Create a question
+      // contain all form data
+      // navigate to home page
+    } catch (error) {
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   /**
@@ -238,7 +249,17 @@ const Question = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          className="primary-gradient w-fit !text-light-900"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>{type === 'edit' ? 'Editing...' : 'Posting...'}</>
+          ) : (
+            <>{type === 'edit' ? 'Edit Question' : 'Ask a Questioin'}</>
+          )}
+        </Button>
       </form>
     </Form>
   );
