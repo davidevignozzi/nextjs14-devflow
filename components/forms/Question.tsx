@@ -20,6 +20,7 @@ import { Badge } from '@/components/ui/badge';
 import { QuestionsSchema } from '@/lib/validations';
 import { useTheme } from '@/context/ThemeProvider';
 import Image from 'next/image';
+import { createQuestion } from '@/lib/actions/question.action';
 
 const type: any = 'create';
 
@@ -43,12 +44,15 @@ const Question = () => {
   });
 
   // Submit handler
-  function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     setIsSubmitting(true);
 
     try {
       // make an async call to your API -> Create a question
       // contain all form data
+
+      await createQuestion({});
+
       // navigate to home page
     } catch (error) {
     } finally {
