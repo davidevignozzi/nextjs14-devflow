@@ -8,9 +8,33 @@
 import { connectToDatabase } from '../mongoose';
 import Question from '@/database/question.model';
 import Tag from '@/database/tag.model';
+import { CreateQuestionParams, GetQuestionsParams } from './shared.types';
+import User from '@/database/user.model';
+import { revalidatePath } from 'next/cache';
 
-export async function createQuestion(params) {
-  // eslint-disable-next-line no-empty
+export async function getQuestions(params: GetQuestionsParams) {
+  try {
+    connectToDatabase();
+
+    const questions = await Question.find({})
+      .populate({
+        path: 'tags',
+        model: Tag
+      })
+      .populate({
+        path: 'author',
+        model: User
+      })
+      .sort({ createdAt: -1 });
+
+    return { questions };
+  } catch (error) {
+    console.error(`❌ ${error} ❌`);
+    throw error;
+  }
+}
+
+export async function createQuestion(params: CreateQuestionParams) {
   try {
     // connect to DB
     connectToDatabase();
@@ -58,5 +82,8 @@ export async function createQuestion(params) {
 
     // Increment author's reputation by +5 points because
     // he created a question
+
+    // revalidatePath allows you to purge cached data on-demand for a specific path.
+    revalidatePath(path);
   } catch (error) {}
 }
