@@ -13,7 +13,6 @@ const SheetTrigger = SheetPrimitive.Trigger;
 
 const SheetClose = SheetPrimitive.Close;
 
-// DialogPortalProps ✏️ Typo Fixed className didn't exist 🐛
 const SheetPortal = ({
   className,
   ...props
