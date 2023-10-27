@@ -70,9 +70,11 @@ export async function deleteUser(params: DeleteUserParams) {
      *
      */
     // get user question ids
-    const userQuestionIds = await Question.find({
-      author: user._id
-    }).distinct('_id');
+
+    // ?  const userQuestionIds = await Question.find({
+    // ?    author: user._id
+    // ?  }).distinct('_id');
+
     // ⬆️ distinct | create a distinct query, meaning return
     // distinct values of the given field that mathces this filter
 
@@ -84,7 +86,7 @@ export async function deleteUser(params: DeleteUserParams) {
     // delete user
     const deletedUser = await User.findByIdAndDelete(user._id);
 
-    return deleteUser;
+    return deletedUser;
   } catch (error) {
     console.error(`❌ ${error} ❌`);
     throw error;
