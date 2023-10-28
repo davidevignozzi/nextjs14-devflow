@@ -104,7 +104,7 @@ export async function POST(req: Request) {
     const mongoUser = await updateUser({
       clerkId: id,
       updateData: {
-        name: `${first_name}${last_name ? ` ${last_name}` : ''}}`,
+        name: `${first_name}${last_name ? ` ${last_name}` : ''}`,
         username: username!, // <- ! means that we know that the username is not going to be undefined
         email: email_addresses[0].email_address,
         picture: image_url
