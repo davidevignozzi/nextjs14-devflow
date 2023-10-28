@@ -75,15 +75,12 @@ export async function POST(req: Request) {
     } = evt.data;
 
     // Create a new user in the database
-    const mongoUser = await updateUser({
+    const mongoUser = await createUser({
       clerkId: id,
-      updateData: {
-        name: `${first_name}${last_name ? ` ${last_name}` : ''}}`,
-        username: username!, // <- ! means that we know that the username is not going to be undefined
-        email: email_addresses[0].email_address,
-        picture: image_url
-      },
-      path: `/profile/${id}`
+      name: `${first_name}${last_name ? ` ${last_name}` : ''}}`,
+      username: username!, // <- ! means that we know that the username is not going to be undefined
+      email: email_addresses[0].email_address,
+      picture: image_url
     });
 
     return NextResponse.json({ message: 'OK', user: mongoUser });
@@ -103,13 +100,16 @@ export async function POST(req: Request) {
       last_name
     } = evt.data;
 
-    // Create a new user in the database
-    const mongoUser = await createUser({
+    // Update user in the database
+    const mongoUser = await updateUser({
       clerkId: id,
-      name: `${first_name}${last_name ? ` ${last_name}` : ''}}`,
-      username: username!, // <- ! means that we know that the username is not going to be undefined
-      email: email_addresses[0].email_address,
-      picture: image_url
+      updateData: {
+        name: `${first_name}${last_name ? ` ${last_name}` : ''}}`,
+        username: username!, // <- ! means that we know that the username is not going to be undefined
+        email: email_addresses[0].email_address,
+        picture: image_url
+      },
+      path: `/profile/${id}`
     });
 
     return NextResponse.json({ message: 'OK', user: mongoUser });
