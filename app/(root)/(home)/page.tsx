@@ -6,13 +6,12 @@ import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/filters';
 import { getQuestions } from '@/lib/actions/question.action';
-import console from 'console';
 import Link from 'next/link';
 
 export default async function Home() {
   const result = await getQuestions({});
 
-  console.log(result.questions);
+  // console.log(result.questions);
 
   return (
     <>
