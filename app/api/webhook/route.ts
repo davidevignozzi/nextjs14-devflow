@@ -6,7 +6,7 @@ import {
   createUser,
   deleteUser,
   updateUser
-} from '@/lib/actions/user.action';
+} from '@/lib/actions/user.actions';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
