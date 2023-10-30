@@ -107,7 +107,7 @@ export async function getAllUsers(params: GetAllUsersParams) {
 
     return { users };
   } catch (error) {
-    console.log('⛔ MongoDB connection failed ⛔', error);
+    console.error(`❌ ${error} ❌`);
     throw error;
   }
 }

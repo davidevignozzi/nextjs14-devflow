@@ -34,7 +34,7 @@ export async function getTopInteractedTags(
       }
     ];
   } catch (error) {
-    console.log('⛔ MongoDB connection failed ⛔', error);
+    console.error(`❌ ${error} ❌`);
     throw error;
   }
 }
