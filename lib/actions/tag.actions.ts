@@ -51,7 +51,7 @@ export async function getAllTags(params: GetAllTagsParams) {
 
     return { tags };
   } catch (error) {
-    console.log('⛔ MongoDB connection failed ⛔', error);
+    console.error(`❌ ${error} ❌`);
     throw error;
   }
 }
