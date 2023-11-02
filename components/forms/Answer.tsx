@@ -16,8 +16,18 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useTheme } from '@/context/ThemeProvider';
 import { Button } from '../ui/button';
 import Image from 'next/image';
+import { createAnswer } from '@/lib/actions/answer.actions';
+import { usePathname } from 'next/navigation';
 
-const Answer = () => {
+interface Props {
+  question: string;
+  questionId: string;
+  authorId: string;
+}
+
+const Answer = ({ question, questionId, authorId }: Props) => {
+  const pathname = usePathname();
+
   const editorRef = useRef();
 
   // For editor dark and light mode
@@ -36,7 +46,33 @@ const Answer = () => {
    * Submit form
    *
    */
-  const handleCreateAnswer = () => {};
+  const handleCreateAnswer = async (
+    values: z.infer<typeof AnswerSchema>
+  ) => {
+    setIsSubmitting(true);
+
+    try {
+      // Create question
+      await createAnswer({
+        content: values.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathname
+      });
+
+      // Reset form
+      form.reset();
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent('');
+      }
+    } catch (error) {
+      console.error(`❌ ${error} ❌`);
+      throw error;
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div>
