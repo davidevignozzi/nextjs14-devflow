@@ -3,7 +3,7 @@ import Filter from '@/components/shared/Filter';
 import NoResult from '@/components/shared/NoResult';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import { QuestionFilters } from '@/constants/filters';
-import { getSavedQuestions } from '@/lib/actions/user.actions';
+import { getSavedQuestions } from '@/lib/actions/user.action';
 import { auth } from '@clerk/nextjs';
 
 export default async function Collection() {

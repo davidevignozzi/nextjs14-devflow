@@ -1,14 +1,11 @@
 'use client';
 
-import {
-  downvoteAnswer,
-  upvoteAnswer
-} from '@/lib/actions/answer.actions';
+import { downvoteAnswer, upvoteAnswer } from '@/lib/actions/answer.action';
 import {
   downvoteQuestion,
   upvoteQuestion
-} from '@/lib/actions/question.actions';
-import { toggleSaveQuestion } from '@/lib/actions/user.actions';
+} from '@/lib/actions/question.action';
+import { toggleSaveQuestion } from '@/lib/actions/user.action';
 import { formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import {
