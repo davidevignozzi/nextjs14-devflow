@@ -8,6 +8,13 @@ export interface CreateAnswerParams {
   path: string;
 }
 
+export interface GetAnswersParams {
+  questionId: string;
+  sortBy?: string;
+  page?: number;
+  pageSize?: number;
+}
+
 export interface GetQuestionsParams {
   page?: number;
   pageSize?: number;
