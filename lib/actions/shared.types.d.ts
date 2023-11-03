@@ -15,6 +15,14 @@ export interface GetAnswersParams {
   pageSize?: number;
 }
 
+export interface AnswerVoteParams {
+  answerId: string;
+  userId: string;
+  hasUpvoted: boolean;
+  hasDownvoted: boolean;
+  path: string;
+}
+
 export interface GetQuestionsParams {
   page?: number;
   pageSize?: number;

@@ -1,12 +1,19 @@
 'use client';
 
 import {
+  downvoteAnswer,
+  upvoteAnswer
+} from '@/lib/actions/answer.actions';
+import {
   downvoteQuestion,
   upvoteQuestion
 } from '@/lib/actions/question.actions';
 import { formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import {
+  usePathname
+  // useRouter
+} from 'next/navigation';
 
 interface Props {
   type: string;
@@ -30,7 +37,7 @@ const Votes = ({
   hasSaved
 }: Props) => {
   const pathname = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleSave = () => {};
 
@@ -49,13 +56,13 @@ const Votes = ({
           path: pathname
         });
       } else if (type === 'Answer') {
-        // await upvoteAnswer({
-        //   questionId: JSON.parse(itemId),
-        //   userId: JSON.parse(userId),
-        //   hasUpvoted,
-        //   hasDownvoted,
-        //   path: pathname
-        // });
+        await upvoteAnswer({
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasUpvoted,
+          hasDownvoted,
+          path: pathname
+        });
       }
 
       // TODO: show a toast
@@ -72,13 +79,13 @@ const Votes = ({
           path: pathname
         });
       } else if (type === 'Answer') {
-        // await downvoteAnswer({
-        //   questionId: JSON.parse(itemId),
-        //   userId: JSON.parse(userId),
-        //   hasUpvoted,
-        //   hasDownvoted,
-        //   path: pathname
-        // });
+        await downvoteAnswer({
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasUpvoted,
+          hasDownvoted,
+          path: pathname
+        });
       }
 
       // TODO: show a toast
@@ -131,18 +138,20 @@ const Votes = ({
         </div>
       </div>
 
-      <Image
-        src={
-          hasSaved
-            ? '/assets/icons/star-filled.svg'
-            : '/assets/icons/star-red.svg'
-        }
-        alt={hasSaved ? 'star-filled' : 'star-red'}
-        width={18}
-        height={18}
-        className="cursor-pointer"
-        onClick={() => handleSave}
-      />
+      {type === 'Question' && (
+        <Image
+          src={
+            hasSaved
+              ? '/assets/icons/star-filled.svg'
+              : '/assets/icons/star-red.svg'
+          }
+          alt={hasSaved ? 'star-filled' : 'star-red'}
+          width={18}
+          height={18}
+          className="cursor-pointer"
+          onClick={() => handleSave}
+        />
+      )}
     </div>
   );
 };
