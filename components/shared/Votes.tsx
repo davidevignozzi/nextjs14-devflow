@@ -8,6 +8,7 @@ import {
   downvoteQuestion,
   upvoteQuestion
 } from '@/lib/actions/question.actions';
+import { toggleSaveQuestion } from '@/lib/actions/user.actions';
 import { formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import {
@@ -39,7 +40,13 @@ const Votes = ({
   const pathname = usePathname();
   // const router = useRouter();
 
-  const handleSave = () => {};
+  const handleSave = async () => {
+    await toggleSaveQuestion({
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+      path: pathname
+    });
+  };
 
   const handleVote = async (action: string) => {
     if (!userId) {
@@ -149,7 +156,7 @@ const Votes = ({
           width={18}
           height={18}
           className="cursor-pointer"
-          onClick={() => handleSave}
+          onClick={handleSave}
         />
       )}
     </div>

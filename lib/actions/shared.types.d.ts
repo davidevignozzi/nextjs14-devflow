@@ -50,6 +50,12 @@ export interface QuestionVoteParams {
   path: string;
 }
 
+export interface ToggleSaveQuestionParams {
+  userId: string;
+  questionId: string;
+  path: string;
+}
+
 export interface CreateUserParams {
   clerkId: string;
   name: string;
