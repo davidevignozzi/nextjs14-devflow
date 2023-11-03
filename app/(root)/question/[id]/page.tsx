@@ -10,7 +10,6 @@ import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import { auth } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Props } from 'next/script';
 
 interface Props {
   params: { id: string };
