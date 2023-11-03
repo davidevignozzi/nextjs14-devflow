@@ -58,8 +58,6 @@ export async function POST(req: Request) {
   // Get the type
   const eventType = evt.type;
 
-  // console.log('🚀 evt.type:', evt.type);
-
   /**
    * Listening for the account creation on the clerk side
    *
