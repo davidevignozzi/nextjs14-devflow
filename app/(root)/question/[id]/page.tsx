@@ -10,8 +10,14 @@ import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import { auth } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Props } from 'next/script';
 
-const QuestionDetail = async ({ params, searchParams }: any) => {
+interface Props {
+  params: { id: string };
+  searchParams: { [key: string]: string | undefined };
+}
+
+const QuestionDetail = async ({ params, searchParams }: Props) => {
   // Access to mongo user
   const { userId: clerkId } = auth();
   let mongoUser;
