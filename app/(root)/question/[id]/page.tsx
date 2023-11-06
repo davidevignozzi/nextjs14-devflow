@@ -7,16 +7,12 @@ import Votes from '@/components/shared/Votes';
 import { getQuestionById } from '@/lib/actions/question.action';
 import { getUserByID } from '@/lib/actions/user.action';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
+import { URLProps } from '@/types';
 import { auth } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface Props {
-  params: { id: string };
-  searchParams: { [key: string]: string | undefined };
-}
-
-const QuestionDetail = async ({ params, searchParams }: Props) => {
+const QuestionDetail = async ({ params, searchParams }: URLProps) => {
   // Access to mongo user
   const { userId: clerkId } = auth();
   let mongoUser;
