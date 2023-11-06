@@ -100,3 +100,8 @@ export interface GetAllTagsParams {
   filter?: string;
   searchQuery?: string;
 }
+
+export interface ViewQuestionParams {
+  questionId: string;
+  userId: string | undefined;
+}
