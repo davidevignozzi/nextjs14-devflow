@@ -13,6 +13,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getJoinedDate } from '@/lib/utils';
 import ProfileLink from '@/components/shared/ProfileLink';
+import Stats from '@/components/shared/Stats';
 
 const ProfilePage = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -85,7 +86,10 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
         </div>
       </div>
 
-      {/* TODO: Stats */}
+      <Stats
+        totalQuestions={userInfo.totalQuestions}
+        totalAnswers={userInfo.totalAnswers}
+      />
 
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
