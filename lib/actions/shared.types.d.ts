@@ -81,6 +81,10 @@ export interface GetAllUsersParams {
   searchQuery?: string; // Add searchQuery parameter
 }
 
+export interface GetUserByIdParams {
+  userId: string;
+}
+
 export interface GetSavedQuestionsParams {
   clerkId: string;
   page?: number;
