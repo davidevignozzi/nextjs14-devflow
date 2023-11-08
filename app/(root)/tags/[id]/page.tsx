@@ -1,7 +1,6 @@
 import QuestionCard from '@/components/cards/QuestionCard';
 import NoResult from '@/components/shared/NoResult';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
-import { IQuestion } from '@/database/question.model';
 import { getQuestionsByTagId } from '@/lib/actions/tag.action';
 import { URLProps } from '@/types';
 
