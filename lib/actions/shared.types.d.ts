@@ -30,6 +30,16 @@ export interface GetQuestionsParams {
   filter?: string;
 }
 
+export interface DeleteQuestionParams {
+  questionId: string;
+  path: string;
+}
+
+export interface DeleteAnswerParams {
+  answerId: string;
+  path: string;
+}
+
 export interface CreateQuestionParams {
   title: string;
   content: string;

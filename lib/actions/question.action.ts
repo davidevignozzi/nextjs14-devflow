@@ -10,11 +10,14 @@ import Question from '@/database/question.model';
 import Tag from '@/database/tag.model';
 import {
   CreateQuestionParams,
+  DeleteQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams
 } from './shared.types';
 import User from '@/database/user.model';
+import Answer from '@/database/answer.model';
+import Interaction from '@/database/interaction.model';
 import { revalidatePath } from 'next/cache';
 
 export async function getQuestions(params: GetQuestionsParams) {
@@ -189,6 +192,34 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     }
 
     // Decrement author's reputation
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error(`❌ ${error} ❌`);
+    throw error;
+  }
+}
+
+export async function deleteQuestion(params: DeleteQuestionParams) {
+  try {
+    connectToDatabase();
+
+    const { questionId, path } = params;
+
+    // Delete the question
+    await Question.deleteOne({ _id: questionId });
+
+    // Delete all answers relative to the question
+    await Answer.deleteMany({ question: questionId });
+
+    // Delete all interaction relative to the question
+    await Interaction.deleteMany({ question: questionId });
+
+    // Update all tags that include the question
+    await Tag.updateMany(
+      { questions: questionId },
+      { $pull: { questions: questionId } }
+    );
 
     revalidatePath(path);
   } catch (error) {
