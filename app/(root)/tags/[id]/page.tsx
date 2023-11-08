@@ -7,7 +7,7 @@ import { URLProps } from '@/types';
 const TagDetails = async ({ params, searchParams }: URLProps) => {
   const result = await getQuestionsByTagId({
     tagId: params.id,
-    page: 1,
+    // page: 1,
     searchQuery: searchParams.q
   });
 
