@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { getJoinedDate } from '@/lib/utils';
 import ProfileLink from '@/components/shared/ProfileLink';
 import Stats from '@/components/shared/Stats';
+import QuestionTab from '@/components/shared/QuestionTab';
 
 const ProfilePage = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -95,7 +96,7 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
         <Tabs defaultValue="top-posts" className="flex-1">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1">
             <TabsTrigger value="top-posts" className="tab">
-              Top Posts
+              Top posts
             </TabsTrigger>
             <TabsTrigger value="answers" className="tab">
               Answers
@@ -103,7 +104,13 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
           </TabsList>
 
           {/* TOP POSTS */}
-          <TabsContent value="top-posts">POSTS</TabsContent>
+          <TabsContent value="top-posts">
+            <QuestionTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId}
+            />
+          </TabsContent>
           {/* ANSWERS */}
           <TabsContent value="answers">ANSWERS</TabsContent>
         </Tabs>

@@ -5,6 +5,7 @@ import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 
 interface QuestionProps {
   _id: string;
+  clerkId?: string;
   title: string;
   tags: {
     _id: string;
@@ -22,6 +23,7 @@ interface QuestionProps {
 }
 
 const QuestionCard = ({
+  clerkId,
   _id,
   title,
   tags,

@@ -116,3 +116,9 @@ export interface ViewQuestionParams {
   questionId: string;
   userId: string | undefined;
 }
+
+export interface GetUserStatsParams {
+  userId: string;
+  page?: number;
+  pageSize?: number;
+}
