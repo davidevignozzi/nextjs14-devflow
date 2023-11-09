@@ -136,7 +136,7 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
     }
 
     // Delete the answer
-    await Question.deleteOne({ _id: answerId });
+    await answer.deleteOne({ _id: answerId });
 
     // Update all question that include the answer
     await Question.updateMany(
