@@ -105,12 +105,21 @@ export async function getAllUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
 
-    // const { page = 1, pageSize = 20, filter, searchQuery } = params;
+    const { searchQuery } = params;
+
+    const query: FilterQuery<typeof User> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, 'i') } },
+        { username: { $regex: new RegExp(searchQuery, 'i') } }
+      ];
+    }
 
     /**
-     * All users newest on the top
+     * All users newest on the top / reserched user
      */
-    const users = await User.find({}).sort({ createdAt: -1 });
+    const users = await User.find(query).sort({ createdAt: -1 });
 
     return { users };
   } catch (error) {
