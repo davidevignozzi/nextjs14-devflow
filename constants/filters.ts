@@ -25,3 +25,10 @@ export const AnswerFilters = [
   { name: 'Most Recent', value: 'recent' },
   { name: 'Oldest', value: 'old' }
 ];
+
+export const TagFilters = [
+  { name: 'Popular', value: 'popular' },
+  { name: 'Recent', value: 'recent' },
+  { name: 'Name', value: 'name' },
+  { name: 'Old', value: 'old' }
+];
