@@ -105,7 +105,11 @@ export async function getAllUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+
+    // for Pagination => caluclate the number of posts to skip
+    // based on the pageNumber and pageSize
+    const skipAmount = (page - 1) * pageSize;
 
     /**
      * Query
@@ -139,9 +143,18 @@ export async function getAllUsers(params: GetAllUsersParams) {
         break;
     }
 
-    const users = await User.find(query).sort(sortOption);
+    const users = await User.find(query)
+      .sort(sortOption)
+      .skip(skipAmount)
+      .limit(pageSize);
 
-    return { users };
+    /**
+     * Pagination
+     */
+    const totalUsers = await User.countDocuments(query);
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
   } catch (error) {
     console.error(`❌ ${error} ❌`);
     throw error;

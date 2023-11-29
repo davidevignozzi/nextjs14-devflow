@@ -30,9 +30,7 @@ export async function getQuestions(params: GetQuestionsParams) {
      */
     const { searchQuery, filter, page = 1, pageSize = 20 } = params;
 
-    /**
-     * Pagination
-     */
+    // for Pagination => caluclate the number of posts to skip based on the pageNumber and pageSize
     const skipAmount = (page - 1) * pageSize; // caluclate the number of posts to skip based on the pageNumber and pageSize
 
     /**
@@ -83,6 +81,9 @@ export async function getQuestions(params: GetQuestionsParams) {
       .limit(pageSize)
       .sort(sortOptions);
 
+    /**
+     * Pagination
+     */
     const totalQuestions = await Question.countDocuments(query);
     const isNext = totalQuestions > skipAmount + questions.length;
 
