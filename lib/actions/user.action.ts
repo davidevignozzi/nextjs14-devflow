@@ -204,7 +204,16 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { clerkId, searchQuery, filter } = params;
+    const {
+      clerkId,
+      searchQuery,
+      filter,
+      page = 1,
+      pageSize = 20
+    } = params;
+
+    // for Pagination => caluclate the number of posts to skip based on the pageNumber and pageSize
+    const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof Question> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, 'i') } }
@@ -241,7 +250,9 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
       path: 'saved',
       match: query,
       options: {
-        sort: sortOption
+        sort: sortOption,
+        skip: skipAmount,
+        limit: pageSize + 1
       },
       populate: [
         { path: 'tags', model: Tag, select: '_id name' },
@@ -249,13 +260,18 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
       ]
     });
 
+    /**
+     * Pagination
+     */
+    const isNext = user.saved.length > pageSize;
+
     if (!user) {
       throw new Error('❌🔍 User not found 🔍❌');
     }
 
     const savedQuestions = user.saved;
 
-    return { questions: savedQuestions };
+    return { questions: savedQuestions, isNext };
   } catch (error) {
     console.error(`❌ ${error} ❌`);
     throw error;
