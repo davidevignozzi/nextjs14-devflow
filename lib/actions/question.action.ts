@@ -28,7 +28,12 @@ export async function getQuestions(params: GetQuestionsParams) {
     /**
      * Search functionality
      */
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
+
+    /**
+     * Pagination
+     */
+    const skipAmount = (page - 1) * pageSize; // caluclate the number of posts to skip based on the pageNumber and pageSize
 
     /**
      * Query
@@ -74,9 +79,14 @@ export async function getQuestions(params: GetQuestionsParams) {
         path: 'author',
         model: User
       })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOptions);
 
-    return { questions };
+    const totalQuestions = await Question.countDocuments(query);
+    const isNext = totalQuestions > skipAmount + questions.length;
+
+    return { questions, isNext };
   } catch (error) {
     console.error(`❌ ${error} ❌`);
     throw error;
