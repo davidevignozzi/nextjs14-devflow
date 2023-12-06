@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import qs from 'query-string';
+import { BADGE_CRITERIA } from '@/constants/constants';
+import { BadgeCounts } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -143,4 +145,45 @@ export const removeKeysFromQuery = ({
     },
     { skipNull: true }
   );
+};
+
+interface BadgeParam {
+  criteria: {
+    type: keyof typeof BADGE_CRITERIA;
+    count: number;
+  }[];
+}
+/**
+ * Assigns badges based on specific criteria.
+ * The function takes a `BadgeParam` parameter object that defines criteria
+ * for each badge type. Badges are assigned based on the specified count
+ * in the criteria. Badge levels (GOLD, SILVER, BRONZE) are defined by
+ * the constant BADGE_CRITERIA. For each badge type and level, if the specified
+ * count exceeds or reaches the defined threshold, the corresponding count
+ * for that badge level is incremented.
+ *
+ * @param params - Parameter object of type `BadgeParam` containing criteria for badge assignment.
+ * @returns A `BadgeCounts` object representing the number of badges assigned for each level.
+ */
+export const assignBadges = (params: BadgeParam) => {
+  const badgeCounts: BadgeCounts = {
+    GOLD: 0,
+    SILVER: 0,
+    BRONZE: 0
+  };
+
+  const { criteria } = params;
+
+  criteria.forEach((item) => {
+    const { type, count } = item;
+    const badgeLevels: any = BADGE_CRITERIA[type];
+
+    Object.keys(badgeLevels).forEach((level: any) => {
+      if (count >= badgeLevels[level]) {
+        badgeCounts[level as keyof BadgeCounts] += 1;
+      }
+    });
+  });
+
+  return badgeCounts;
 };
