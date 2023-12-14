@@ -42,5 +42,3 @@ const ParseHTML = ({ data }: Props) => {
 };
 
 export default ParseHTML;
-
-// TODO: Fix the warning on reload
