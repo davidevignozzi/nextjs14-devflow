@@ -30,6 +30,13 @@ export interface GetQuestionsParams {
   filter?: string;
 }
 
+export interface RecommendedParams {
+  userId: string;
+  page?: number;
+  pageSize?: number;
+  searchQuery?: string;
+}
+
 export interface EditQuestionParams {
   questionId: string;
   title: string;
