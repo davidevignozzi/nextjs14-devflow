@@ -15,6 +15,7 @@ import Link from 'next/link';
 const QuestionDetail = async ({ params, searchParams }: URLProps) => {
   // Access to mongo user
   const { userId: clerkId } = auth();
+
   let mongoUser;
   if (clerkId) {
     mongoUser = await getUserByID({ userId: clerkId });
@@ -46,11 +47,11 @@ const QuestionDetail = async ({ params, searchParams }: URLProps) => {
             <Votes
               type="Question"
               itemId={JSON.stringify(result._id)}
-              userId={JSON.stringify(mongoUser._id)}
+              userId={JSON.stringify(mongoUser?._id)}
               upvotes={result.upvotes.length}
-              hasUpvoted={result.upvotes.includes(mongoUser._id)}
+              hasUpvoted={result.upvotes.includes(mongoUser?._id)}
               downvotes={result.downvotes.length}
-              hasDownvoted={result.downvotes.includes(mongoUser._id)}
+              hasDownvoted={result.downvotes.includes(mongoUser?._id)}
               hasSaved={mongoUser?.saved.includes(result._id)}
             />
           </div>
@@ -106,7 +107,7 @@ const QuestionDetail = async ({ params, searchParams }: URLProps) => {
 
       <AllAnswers
         questionId={result._id}
-        userId={mongoUser._id}
+        userId={mongoUser?._id}
         totalAnswers={result.answers.length}
         page={searchParams?.page ? +searchParams.page : 1}
         filter={searchParams?.filter}
@@ -115,7 +116,7 @@ const QuestionDetail = async ({ params, searchParams }: URLProps) => {
       <Answer
         question={result.content}
         questionId={JSON.stringify(result._id)}
-        authorId={JSON.stringify(mongoUser._id)}
+        authorId={JSON.stringify(mongoUser?._id)}
       />
     </>
   );
