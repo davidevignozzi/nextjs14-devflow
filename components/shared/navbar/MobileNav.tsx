@@ -71,7 +71,7 @@ const MobileNav = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-1">
           <Image
-            src="/assets/images/site-logo.svg"
+            src="/assets/images/logo.png"
             alt="DevFlow"
             width={23}
             height={23}
