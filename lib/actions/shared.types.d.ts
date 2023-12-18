@@ -151,3 +151,8 @@ export interface SearchParams {
   query?: string | null;
   type?: string | null;
 }
+
+export interface JobFilterParams {
+  query: string;
+  page: string;
+}
