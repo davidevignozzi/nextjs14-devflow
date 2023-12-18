@@ -17,7 +17,7 @@ import { usePathname } from 'next/dist/client/components/navigation';
 const NavContent = () => {
   const pathname = usePathname();
   return (
-    <section className=" my-10 flex h-full flex-col gap-6">
+    <section className="my-10 flex h-full flex-col gap-6">
       {sidebarLinks.map((item) => {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 1) ||
