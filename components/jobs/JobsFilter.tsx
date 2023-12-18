@@ -61,15 +61,19 @@ const JobsFilter = ({ countriesList }: JobsFilterProps) => {
         <SelectContent className="body-semibold text-dark500_light700 small-regular max-h-[350px] max-w-[210px] border-none bg-light-900 dark:bg-dark-300">
           <SelectGroup>
             {countriesList ? (
-              countriesList.map((country: Country) => (
-                <SelectItem
-                  key={country.name.common}
-                  value={country.name.common}
-                  className="cursor-pointer  focus:bg-light-800 dark:focus:bg-dark-400"
-                >
-                  {country.name.common}
-                </SelectItem>
-              ))
+              countriesList
+                .sort((a, b) =>
+                  ('' + a.name.common).localeCompare(b.name.common)
+                )
+                .map((country: Country) => (
+                  <SelectItem
+                    key={country.name.common}
+                    value={country.name.common}
+                    className="cursor-pointer  focus:bg-light-800 dark:focus:bg-dark-400"
+                  >
+                    {country.name.common}
+                  </SelectItem>
+                ))
             ) : (
               <SelectItem value="No results found">
                 No results found
