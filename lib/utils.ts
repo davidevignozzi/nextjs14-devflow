@@ -187,3 +187,43 @@ export const assignBadges = (params: BadgeParam) => {
 
   return badgeCounts;
 };
+
+/**
+ * Processes a job title to ensure it is valid and meaningful.
+ * If the input title is undefined or null, it returns 'No Job Title'.
+ * It splits the title into words, filters out unwanted words
+ * (undefined, null, 'undefined', 'null'),
+ * and joins the valid words to create the processed title.
+ *
+ * @param title - The job title to be processed.
+ * @returns A processed job title or 'No Job Title' if the input is undefined, null, or contains no valid words.
+ */
+export function processJobTitle(title: string | undefined | null): string {
+  // Check if title is undefined or null
+  if (title === undefined || title === null) {
+    return 'No Job Title';
+  }
+
+  // Split the title into words
+  const words = title.split(' ');
+
+  // Filter out undefined or null and other unwanted words
+  const validWords = words.filter((word) => {
+    return (
+      word !== undefined &&
+      word !== null &&
+      word.toLowerCase() !== 'undefined' &&
+      word.toLowerCase() !== 'null'
+    );
+  });
+
+  // If no valid words are left, return the general title
+  if (validWords.length === 0) {
+    return 'No Job Title';
+  }
+
+  // Join the valid words to create the processed title
+  const processedTitle = validWords.join(' ');
+
+  return processedTitle;
+}

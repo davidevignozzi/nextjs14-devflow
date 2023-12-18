@@ -1,148 +1,151 @@
+/* eslint-disable camelcase */
 import Link from 'next/link';
 import Image from 'next/image';
-import { Badge } from '@/components/ui/badge';
-import Metric from '@/components/shared/Metric';
-import JobBadge from '@/components/jobs/JobBadge';
 
-interface JobProps {
-  title: string;
-  description: string;
-  city: string;
-  state: string;
-  country: string;
-  requiredSkills: string[];
-  applyLink: string;
-  employerLogo: string;
-  employerWebsite: string;
-  employerName: string;
-  employmentType: string;
-  isRemote: boolean;
-  salary: {
-    min: number;
-    max: number;
-    currency: string;
-    period: string;
-  };
-  postedAt: string;
+import { processJobTitle } from '@/lib/utils';
+
+import { Job } from '@/types';
+
+interface JobLocationProps {
+  job_country?: string;
+  job_city?: string;
+  job_state?: string;
 }
 
-const JobCard = ({
-  title,
-  description,
-  city,
-  state,
-  country,
-  requiredSkills,
-  applyLink,
-  employerLogo,
-  employerWebsite,
-  employerName,
-  employmentType,
-  isRemote,
-  salary,
-  postedAt
-}: JobProps) => {
-  const imageUrl = '/assets/images/site-logo.svg'; // TODO Check if image exists
+const JobLocation = ({
+  job_country,
+  job_city,
+  job_state
+}: JobLocationProps) => {
+  return (
+    <div className="background-light800_dark400 flex items-center justify-end gap-2 rounded-2xl px-3 py-1.5">
+      <Image
+        src={`https://flagsapi.com/${job_country}/flat/64.png`}
+        alt="country symbol"
+        width={16}
+        height={16}
+        className="rounded-full"
+      />
 
-  const location = `${city ? `${city}${state ? ', ' : ''}` : ''}${
-    state || ''
-  }${city && state && country ? ', ' : ''}${country || ''}`;
+      <p className="body-medium text-dark400_light700">
+        {job_city && `${job_city}, `}
+        {job_state && `${job_state}, `}
+        {job_country && `${job_country}`}
+      </p>
+    </div>
+  );
+};
+
+const JobCard = ({ job }: { job: Job }) => {
+  const {
+    employer_logo,
+    employer_website,
+    job_employment_type,
+    job_title,
+    job_description,
+    job_apply_link,
+    job_city,
+    job_state,
+    job_country
+  } = job;
 
   return (
-    <div className="card-wrapper w-full rounded-[10px]">
-      <div className="flex flex-row gap-4 p-6">
-        <div className="hidden sm:block">
-          <JobBadge data={{ website: employerWebsite, logo: imageUrl }} />
-        </div>
+    <section className="background-light900_dark200 light-border shadow-light100_darknone flex flex-col items-start gap-6 rounded-lg border p-6 sm:flex-row sm:p-8">
+      <div className="flex w-full justify-end sm:hidden">
+        <JobLocation
+          job_country={job_country}
+          job_city={job_city}
+          job_state={job_state}
+        />
+      </div>
 
-        <div className="w-full">
-          <div className="block sm:hidden">
-            <div className="flex flex-col-reverse items-end">
-              <JobBadge data={{ location, country }} isLocation />
-            </div>
-          </div>
-          <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
-            <div className="flex-1">
-              <JobBadge
-                data={{ website: employerWebsite, logo: imageUrl }}
-                badgeStyles="mb-6 sm:hidden"
-              />
-              <div className="flex flex-col">
-                <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-2">
-                  {title || 'example'}
-                </h3>
-                <h4 className="paragraph-medium text-dark400_light700">
-                  {employerName || 'example'}
-                </h4>
-              </div>
-            </div>
-            <JobBadge
-              data={{ location, country }}
-              badgeStyles="hidden sm:flex"
-              isLocation
+      <div className="flex items-center gap-6">
+        {employer_logo ? (
+          <Link
+            href={employer_website ?? '/jobs'}
+            className="background-light800_dark400 relative h-16 w-16 rounded-xl"
+          >
+            <Image
+              src={employer_logo}
+              alt="company logo"
+              fill
+              className="h-full w-full object-contain p-2"
             />
-          </div>
+          </Link>
+        ) : (
+          <Image
+            src="/assets/images/site-logo.svg"
+            alt="default site logo"
+            width={64}
+            height={64}
+            className="rounded-[10px]"
+          />
+        )}
+      </div>
 
-          <p className="body-regular text-dark200_light900 mt-3.5 line-clamp-3">
-            {/* {description.slice(0, 2000)} */}
-            {description ||
-              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.'}
+      <div className="w-full">
+        <div className="flex-between flex-wrap gap-2">
+          <p className="base-semibold text-dark200_light900">
+            {processJobTitle(job_title)}
           </p>
 
-          {requiredSkills && requiredSkills.length > 0 && (
-            <div className="mt-3.5 flex flex-wrap gap-2">
-              {requiredSkills.map((tag) => (
-                <Badge
-                  key={tag}
-                  className="subtle-medium background-light800_dark300 text-light400_light500 rounded-md border-none px-4 py-2 uppercase"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          )}
-
-          <div className="flex-between mt-6 w-full flex-wrap gap-3">
-            <div className="flex items-center gap-3 max-sm:flex-wrap max-sm:justify-start">
-              <Metric
-                imgUrl="/assets/icons/clock.svg"
-                alt="clock"
-                // value={employmentTypeConverter(employmentType)}
-                value={employmentType}
-                title={''}
-                textStyle="small-medium text-light-500"
-              />
-
-              <Metric
-                imgUrl="/assets/icons/currency-dollar-circle.svg"
-                alt="dollar circle"
-                // value={getFormattedSalary(salary) || 'TBD'}
-                value={''}
-                title=""
-                textStyle="small-medium text-light-500"
-              />
-            </div>
-
-            <Link
-              href={applyLink || '/'}
-              className="flex items-center gap-2"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <p className="body-semibold primary-text-gradient">
-                View job
-              </p>
-              <Image
-                alt="arrow up right"
-                width={20}
-                height={20}
-                src="/assets/icons/arrow-up-right.svg"
-              />
-            </Link>
+          <div className="hidden sm:flex">
+            <JobLocation
+              job_country={job_country}
+              job_city={job_city}
+              job_state={job_state}
+            />
           </div>
         </div>
+
+        <p className="body-regular text-dark500_light700  mt-2 line-clamp-2">
+          {job_description?.slice(0, 200)}
+        </p>
+
+        <div className="flex-between mt-8 flex-wrap gap-6">
+          <div className="flex flex-wrap items-center gap-6">
+            <div className="flex items-center gap-2">
+              <Image
+                src="/assets/icons/clock-2.svg"
+                alt="clock"
+                width={20}
+                height={20}
+              />
+
+              <p className="body-medium text-light-500">
+                {job_employment_type}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Image
+                src="/assets/icons/currency-dollar-circle.svg"
+                alt="dollar symbol"
+                width={20}
+                height={20}
+              />
+
+              <p className="body-medium text-light-500">Not disclosed</p>
+            </div>
+          </div>
+
+          <Link
+            href={job_apply_link ?? '/jobs'}
+            target="_blank"
+            className="flex items-center gap-2"
+          >
+            <p className="body-semibold primary-text-gradient">View job</p>
+
+            <Image
+              src="/assets/icons/arrow-up-right.svg"
+              alt="arrow up right"
+              width={20}
+              height={20}
+            />
+          </Link>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
